@@ -1,14 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiPlus, FiArrowRight } from 'react-icons/fi';
 import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
 
 import MapMarkerImg from '../images/map-marker.svg';
 import mapIcon from '../utils/mapIcon';
+import api from '../services/api';
 
 import '../styles/pages/orphanages-map.css';
 
+interface Orphanage {
+  id: number;
+  latitude: number;
+  longitude: number;
+  name: string;
+}
+
 function OrphanagesMap() {
+  const [orphanages, setOrphanages] = useState<Orphanage[]>([]);
+
+  useEffect(() => {
+    api.get('orphanages').then(response => {
+      setOrphanages(response.data);
+    })
+  }, []);
+
   return (
     <div id="page-map">
       <aside>
@@ -32,18 +48,23 @@ function OrphanagesMap() {
       >
         <TileLayer url={`https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.REACT_APP_MAPBOX_TOKEN}`} />
 
-        <Marker 
-          position={[-23.5411169,-46.6415725]}
-          icon={mapIcon}
-        >
-          <Popup closeButton={false} minWidth={240} maxWidth={240} className="map-popup">
-            Lar das meninas
+        {orphanages.map(orphanages => {
+          return (
+            <Marker
+              key={orphanages.id}
+              position={[orphanages.latitude,orphanages.longitude]}
+              icon={mapIcon}
+            >
+            <Popup closeButton={false} minWidth={240} maxWidth={240} className="map-popup">
+              {orphanages.name}
 
-            <Link to="/orphanage/1">
-              <FiArrowRight size={20} color="#fff" />
-            </Link>
-          </Popup>
-        </Marker>
+              <Link to={`/orphanage/${orphanages.id}`}>
+                <FiArrowRight size={20} color="#fff" />
+              </Link>
+            </Popup>
+          </Marker>
+          );
+        })}
       </Map>
 
       <Link to="/orphanages/create" className="create-orphanages">
