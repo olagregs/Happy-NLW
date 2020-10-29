@@ -7,12 +7,12 @@
 &nbsp;
 
 <p align="center">
-  <img src="./images/screen1.png">
-  <img src="./images/screen2.png">
-  <img src="./images/screen3.png">
-  <img src="./images/screen4.png">
-  <img src="./images/screen5.png">
-  <img src="./images/screen6.png">
+  <img src="./images/screen1.PNG">
+  <img src="./images/screen2.PNG">
+  <img src="./images/screen3.PNG">
+  <img src="./images/screen4.PNG">
+  <img src="./images/screen5.PNG">
+  <img src="./images/screen6.PNG">
 
   ## Mobile
   &nbsp;
